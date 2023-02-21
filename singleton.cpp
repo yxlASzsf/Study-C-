@@ -190,4 +190,36 @@ SingleInstance::~SingleInstance()
 {
     std::cout << "析构函数" << std::endl
 }
+//5.单例模板：
+  template<typename T>
+  class Singleton{
+   public:
+	   static T&get_instance()
+	   {
+              static T instance;
+	      return T;
+	   }
+	   virtual ~Singleton(){
+		   std::cout<<"基类析构函数调用"<<std::endl;}
+  private:
+	   Singleton(const Singleton&);
+	   Singleton &operator=(const Singleton&);
+  protected:
+	   Singleton(){
+             std::cout<<"基类构造函数调用"<<std::endl;
+	   }
 
+  }
+
+//举例：
+class example:public Singleton<example>{
+ friend class Singleton<example>;//友元以便于访问子类私有构造
+  public：
+	  example(const example&)=delete;
+    example &operator=(const example&)=delete;
+    private：
+	    example()=default;
+}
+
+//具体可使用如下：
+  example & t=example::get_instance();//继承了父类方法，并且已经实例化了模板，直接调用
